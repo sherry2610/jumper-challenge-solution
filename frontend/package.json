@@ -14,9 +14,12 @@
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.15.16",
     "@mui/material-nextjs": "^5.15.11",
+    "@tanstack/react-query": "^5.67.1",
+    "ethers": "^6.13.5",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "wagmi": "^2.14.12"
   },
   "devDependencies": {
     "@types/node": "^20",
