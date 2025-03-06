@@ -1,10 +1,20 @@
-import { Box, Typography } from "@mui/material";
-import Image from "next/image";
+import AccountConnection from '@/components/AccountCreation';
+import { Box, Container, Typography } from '@mui/material';
+import Image from 'next/image';
 
 export default function Home() {
   return (
-    <Box display="flex" justifyContent="center">
-      <Typography variant="h1">Welcome to Jumper challenge!</Typography>
-    </Box>
+    <Container maxWidth='md'>
+      <Box sx={{ my: 4 }}>
+        <Box display='flex' justifyContent='center'>
+          <Typography variant='h1'>Welcome to Jumper challenge!</Typography>
+        </Box>
+
+        <Typography variant='h3' align='center' gutterBottom>
+          Wallet Auth and ERC20 Token Dashboard
+        </Typography>
+        <AccountConnection />
+      </Box>
+    </Container>
   );
 }
