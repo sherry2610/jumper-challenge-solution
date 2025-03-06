@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import helmet from 'helmet';
 import { pino } from 'pino';
 
+import { accountRouter } from '@/api/account/accountRouter';
 import { healthCheckRouter } from '@/api/healthCheck/healthCheckRouter';
 import { openAPIRouter } from '@/api-docs/openAPIRouter';
 import errorHandler from '@/common/middleware/errorHandler';
@@ -12,6 +13,9 @@ import { env } from '@/common/utils/envConfig';
 
 const logger = pino({ name: 'server start' });
 const app: Express = express();
+
+// Parse JSON request bodies
+app.use(express.json());
 
 // Set the application to trust the reverse proxy
 app.set('trust proxy', true);
@@ -26,6 +30,7 @@ app.use(requestLogger);
 
 // Routes
 app.use('/health-check', healthCheckRouter);
+app.use('/api/account', accountRouter);
 
 // Swagger UI
 app.use(openAPIRouter);
