@@ -1,4 +1,4 @@
-import { trimAndConcat } from '@/utils/helpers';
+import { showNumber, trimAndConcat } from '@/utils/helpers';
 import {
   Table,
   TableBody,
@@ -73,6 +73,7 @@ const TokenTable: React.FC<TokenTableProps> = ({ tokens, isFetching }) => {
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
+  const formatter = new Intl.NumberFormat('en-US');
 
   return (
     <>
@@ -129,7 +130,13 @@ const TokenTable: React.FC<TokenTableProps> = ({ tokens, isFetching }) => {
               <TableRow key={token.address} hover>
                 <TableCell align='center'>{token.name}</TableCell>
                 <TableCell align='center'>{token.symbol}</TableCell>
-                <TableCell align='center'>{token.balance}</TableCell>
+                <TableCell align='center' sx={{ fontWeight: 'bold' }}>
+                  {Number(showNumber(token.balance.toString(), 2)) == 0
+                    ? '<0.001'
+                    : formatter.format(
+                        Number(showNumber(token.balance.toString(), 2))
+                      )}
+                </TableCell>
                 <TableCell
                   align='center'
                   sx={{
