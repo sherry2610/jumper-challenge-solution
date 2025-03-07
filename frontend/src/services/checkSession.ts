@@ -1,14 +1,19 @@
 import axios, { AxiosError } from 'axios';
 
-export const checkSession = async (): Promise<{
+export const checkSession = async (
+  address: string
+): Promise<{
   valid: boolean;
   address?: string;
   message?: string;
 }> => {
   try {
-    const response = await axios.get('/api/account/session', {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `/api/account/session?address=${address}`,
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   } catch (error: AxiosError | unknown) {
     if (axios.isAxiosError(error)) {

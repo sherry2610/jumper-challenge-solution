@@ -15,18 +15,19 @@ export const useAccountVerification = (
   isConnected: boolean,
   signature: string | undefined,
   signMessage: (params: { message: string }) => void,
-  SIGN_MESSAGE: string
+  SIGN_MESSAGE: string,
+  address: string
 ): void => {
-  const sessionCheckedRef = useRef(false);
   useEffect(() => {
     (async () => {
-      if (isConnected && !sessionCheckedRef.current) {
-        sessionCheckedRef.current = true;
-        const isSessionExpired = await checkSession();
+      if (isConnected) {
+        const isSessionExpired = await checkSession(address);
+        console.log('isSessionExpired', isSessionExpired);
         if (!signature && !isSessionExpired.valid) {
+          console.log('running sign');
           signMessage({ message: SIGN_MESSAGE });
         }
       }
     })();
-  }, [isConnected, signature, signMessage, SIGN_MESSAGE]);
+  }, [isConnected, signature, signMessage, SIGN_MESSAGE, address]);
 };

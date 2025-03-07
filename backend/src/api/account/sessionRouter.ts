@@ -24,7 +24,12 @@ export const sessionRouter: Router = (() => {
   const router = express.Router();
 
   router.get('/session', (req: Request, res: Response) => {
-    const token = req.cookies.sessionToken;
+    const { address } = req.query;
+    if (!address || typeof address !== 'string') {
+      return res.status(400).json({ valid: false, error: 'Missing address query parameter' });
+    }
+
+    const token = req.cookies[`sessionToken_${address.toLowerCase()}`];
     if (!token) {
       return res.status(401).json({ valid: false, error: 'Session expired or invalid' });
     }

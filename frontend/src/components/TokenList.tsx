@@ -24,19 +24,19 @@ const TokenList = () => {
     queryFn: async () => {
       return await fetchTokens(address!, chainId!.toString())
         .then((res) => {
-          handleShowToast({
-            message: 'Tokens fetched successfully!',
-            severity: 'success',
-          });
+          // handleShowToast({
+          //   message: 'Tokens fetched successfully!',
+          //   severity: 'success',
+          // });
           return res?.data?.responseObject
             ? { ...res?.data?.responseObject, success: true }
             : { tokens: [], success: true };
         })
         .catch((err) => {
-          handleShowToast({
-            message: err.response.data.message,
-            severity: 'error',
-          });
+          // handleShowToast({
+          //   message: err.response.data.message,
+          //   severity: 'error',
+          // });
           return { tokens: [], success: false };
         });
     },
