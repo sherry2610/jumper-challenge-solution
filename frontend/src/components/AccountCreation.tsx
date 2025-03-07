@@ -1,14 +1,15 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Typography,
   Box,
   CircularProgress,
   Alert,
+  Tooltip,
 } from '@mui/material';
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
-import { type SignMessageData, type SignMessageVariables } from 'wagmi/query';
+import { type SignMessageData } from 'wagmi/query';
 import { trimAndConcat } from '@/utils/helpers';
 import ToastNotification from './common/ToastNotification';
 import { verifyAccount } from '@/services/verifyAccount';
@@ -120,11 +121,33 @@ const AccountConnection = () => {
         gap: 2,
       }}
     >
-      <Typography variant='h6'>
-        {!isConnected
-          ? 'Connect your Wallet'
-          : `Wallet Connected: ${trimAndConcat(address as string)}`}
-      </Typography>
+      {!isConnected ? (
+        <Typography variant='h6'>Connect your Wallet</Typography>
+      ) : (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 2,
+          }}
+        >
+          <Typography variant='h6'>Wallet Connectessd:</Typography>
+
+          <Tooltip title={address} placement='top'>
+            <span
+              style={{
+                display: 'inline',
+                cursor: 'pointer',
+                fontWeight: 'bolder',
+              }}
+            >
+              {trimAndConcat(address as string)}
+            </span>
+          </Tooltip>
+        </Box>
+      )}
+
       {isMessageSignedDeclined && (
         <Box>
           <Button

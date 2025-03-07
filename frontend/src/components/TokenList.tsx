@@ -1,18 +1,12 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useQuery } from '@tanstack/react-query';
-import {
-  Box,
-  Typography,
-  CircularProgress,
-  List,
-  ListItem,
-  ListItemText,
-} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { fetchTokens } from '@/services/fetchTokens';
 import { useToast } from '@/hooks/useToast';
 import ToastNotification from './common/ToastNotification';
+import TokenTable from './common/TokenTable';
 
 const TokenList = () => {
   const { toastOpen, toastPayload, handleShowToast, handleCloseToast } =
@@ -73,20 +67,7 @@ const TokenList = () => {
   return (
     <Box>
       <Typography variant='h6'>ERC20 Tokens</Typography>
-      {isFetching ? (
-        <CircularProgress />
-      ) : (
-        <List>
-          {data?.tokens?.map((token: any) => (
-            <ListItem key={token.address}>
-              <ListItemText
-                primary={token.name}
-                secondary={`${token.symbol} - Balance: ${token.balance}`}
-              />
-            </ListItem>
-          ))}
-        </List>
-      )}
+      <TokenTable tokens={data?.tokens || []} isFetching={isFetching} />
 
       <ToastNotification
         open={toastOpen}

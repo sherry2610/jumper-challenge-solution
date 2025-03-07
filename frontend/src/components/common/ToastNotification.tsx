@@ -1,5 +1,3 @@
-// ToastNotification.tsx
-import React from 'react';
 import { Snackbar, Alert, Slide, SlideProps } from '@mui/material';
 
 export interface ToastNotificationProps {
@@ -17,7 +15,6 @@ const ToastNotification: React.FC<ToastNotificationProps> = ({
   autoHideDuration = 3500,
   onClose,
 }) => {
-  // Custom transition using Slide animation
   const Transition = (props: SlideProps) => (
     <Slide {...props} direction='down' />
   );
