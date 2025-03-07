@@ -14,9 +14,12 @@ vi.mock('ethers', () => ({
   verifyMessage: vi.fn(),
 }));
 
-vi.mock('jsonwebtoken', () => ({
-  sign: vi.fn(() => 'fakeToken'),
-}));
+vi.mock('jsonwebtoken', async () => {
+  const actualModule = await vi.importActual('jsonwebtoken');
+  return {
+    default: { ...actualModule, verify: vi.fn(), sign: vi.fn(() => 'fakeToken') },
+  };
+});
 
 describe('Account Router', () => {
   let app: express.Application;
