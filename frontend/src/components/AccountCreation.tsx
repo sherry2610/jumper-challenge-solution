@@ -15,6 +15,7 @@ import ToastNotification from './common/ToastNotification';
 import { verifyAccount } from '@/services/verifyAccount';
 import { useToast } from '@/hooks/useToast';
 import { useAccountVerification } from '@/hooks/useAccountVerification';
+import Link from 'next/link';
 
 const SIGN_MESSAGE = process.env.NEXT_PUBLIC_SIGN_MESSAGE;
 
@@ -163,17 +164,30 @@ const AccountConnection = () => {
 
       {!isConnected ? (
         <>
-          {connectors.map((connector) => (
-            <Button
-              key={connector.id}
-              onClick={() => connect({ connector })}
-              disabled={connectLoading}
-              variant='contained'
-            >
-              {connector.name}
-              {connectLoading && ' (connecting)'}
-            </Button>
-          ))}
+          {connectors && connectors.length > 0 ? (
+            connectors.map((connector) => (
+              <Button
+                key={connector.id}
+                onClick={() => connect({ connector })}
+                disabled={connectLoading}
+                variant='contained'
+              >
+                {connector.name}
+                {connectLoading && ' (connecting)'}
+              </Button>
+            ))
+          ) : (
+            <Alert severity='info'>
+              No wallet found. Please install a compatible EVM wallet extension
+              like{' '}
+              <Link
+                target='_blank'
+                href='https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn'
+              >
+                MetaMask.
+              </Link>
+            </Alert>
+          )}
           {connectError && (
             <Alert severity='error'>{connectError.message}</Alert>
           )}
