@@ -27,7 +27,7 @@ There are three additional environment variables which I've created additionally
 - JWT_SECRET=
 - ETHERSCAN_API_KEY=
 
-For your (the reviewer) convenience, I'll be providing the values of these three environment variables by writing them in the NOTES and also by attaching a file call addtional-three-values.txt through the submission form section.
+For your (the reviewer) convenience, I'll be providing the values of these three environment variables by writing them in the NOTES and also by attaching a file call BE-addtional-three-values.txt through the submission form section.
 
 Ofcourse you can always generate your own values for these three environment variables and use them as well. In that case you only have to make sure of one important thing, which is :
 
