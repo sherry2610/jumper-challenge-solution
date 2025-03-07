@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Typography,
@@ -10,14 +10,12 @@ import {
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { type SignMessageData, type SignMessageVariables } from 'wagmi/query';
 import { trimAndConcat } from '@/utils/helpers';
-import axios from 'axios';
 import ToastNotification from './common/ToastNotification';
+import { verifyAccount } from '@/services/verifyAccount';
+import { useToast } from '@/hooks/useToast';
+import { useAccountVerification } from '@/hooks/useAccountVerification';
 
 const SIGN_MESSAGE = process.env.NEXT_PUBLIC_SIGN_MESSAGE;
-type TOAST_DATA = {
-  message: string;
-  severity: 'success' | 'error' | '';
-};
 
 const AccountConnection = () => {
   const { address, isConnected } = useAccount();
@@ -27,7 +25,6 @@ const AccountConnection = () => {
     error: connectError,
     isPending: connectLoading,
   } = useConnect();
-
   const { disconnect } = useDisconnect();
   const {
     signMessage,
@@ -37,87 +34,68 @@ const AccountConnection = () => {
   } = useSignMessage({
     mutation: {
       onSuccess: (data: SignMessageData) => {
-        console.log('Message signed!');
+        setIsMessageSignedDeclined(false);
         // here we will Send the signature to verify for account creation
-        verifyAccount({ address, signature: data });
+        verifyAccount({
+          address,
+          signature: data,
+          responseCallback: handleShowToast,
+        });
       },
     },
   });
 
-  const [mounted, setMounted] = useState(false);
-  const [toastOpen, setToastOpen] = useState<boolean>(false);
-  const [toastPayload, setToastPayload] = useState<TOAST_DATA>({
-    message: '',
-    severity: '',
-  });
+  const { toastOpen, toastPayload, handleShowToast, handleCloseToast } =
+    useToast();
 
-  const verifyAccount = useCallback(
-    async ({
-      address,
-      signature,
-    }: {
-      address: `0x${string}` | undefined;
-      signature: string;
-    }) => {
-      await axios
-        .post('/api/account/create', {
-          address: `${address}`,
-          signature,
-        })
-        .then((res) => {
-          console.log('Account created successfully');
-          if (res.data.message) {
-            setToastPayload({
-              message: res.data.message,
-              severity: 'success',
-            });
+  const [isMessageSignedDeclined, setIsMessageSignedDeclined] =
+    useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
 
-            handleShowToast();
-          }
-        })
-        .catch((err) => {
-          console.error('Error creating account', err);
-          if (err.response.data.message) {
-            setToastPayload({
-              message: err.response.data.message,
-              severity: 'error',
-            });
-
-            handleShowToast();
-          }
-        });
-    },
-    [address, signature]
+  // trigger the signmessage  when the wallet is connected and if the session is expired
+  useAccountVerification(
+    isConnected,
+    signature,
+    signMessage,
+    SIGN_MESSAGE || ''
   );
-
-  const handleShowToast = () => {
-    setToastOpen(true);
-  };
-
-  const handleCloseToast = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') return;
-    setToastOpen(false);
-    setToastPayload({
-      message: '',
-      severity: '',
-    });
-  };
-
-  // trigger the signmessage when the wallet is connected
-  useEffect(() => {
-    if (isConnected && !signature) {
-      signMessage({ message: SIGN_MESSAGE || '' });
-    }
-  }, [isConnected, signature, signMessage]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // just to ignore hydration mismatch warning
+  // handle the case when signmessage fails due to connector
+  // not initialised or user rejected the signmessage popup
+  useEffect(() => {
+    if (
+      signError &&
+      signError?.message?.includes('getChainId is not a function')
+    ) {
+      signMessage({ message: SIGN_MESSAGE || '' });
+    } else if (
+      signError &&
+      signError?.message?.includes('User rejected the request.')
+    ) {
+      handleShowToast({
+        message: 'User rejected the request.',
+        severity: 'error',
+      });
+
+      // this will show a cta (Verify Account) to sign message again
+      // if user decided to cancel the signmessage popup
+      setIsMessageSignedDeclined(true);
+
+      setTimeout(() => {
+        //   this is only to notify the user
+        handleShowToast({
+          message: 'Please verify your account by signing the message.',
+          severity: 'info',
+        });
+      }, 4000);
+    }
+  }, [signError]);
+
+  // just to remove hydration mismatch warning
   if (!mounted) {
     return (
       <Box
@@ -147,6 +125,17 @@ const AccountConnection = () => {
           ? 'Connect your Wallet'
           : `Wallet Connected: ${trimAndConcat(address as string)}`}
       </Typography>
+      {isMessageSignedDeclined && (
+        <Box>
+          <Button
+            onClick={() => signMessage({ message: SIGN_MESSAGE || '' })}
+            disabled={signLoading}
+            variant='contained'
+          >
+            Verify Account
+          </Button>
+        </Box>
+      )}
 
       {!isConnected ? (
         <>
@@ -167,11 +156,6 @@ const AccountConnection = () => {
         </>
       ) : (
         <>
-          {signError && (
-            <Alert severity='error'>
-              Signature Error : {signError.message}
-            </Alert>
-          )}
           <Button variant='outlined' onClick={() => disconnect()}>
             {signLoading ? <CircularProgress /> : 'Disconnect Wallet'}
           </Button>
