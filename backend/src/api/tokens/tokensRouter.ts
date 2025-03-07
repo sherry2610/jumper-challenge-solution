@@ -66,7 +66,7 @@ This endpoint is for :
         );
         return handleServiceResponse(serviceResponse, res);
       }
-      const tokens = await fetchERC20Tokens(userAddress, chainId);
+      const { tokens } = await fetchERC20Tokens(userAddress, chainId);
 
       const serviceResponse = new ServiceResponse(
         ResponseStatus.Success,
