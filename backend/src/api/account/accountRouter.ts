@@ -5,6 +5,38 @@ import { handleServiceResponse } from '@/common/utils/httpHandlers';
 import { StatusCodes } from 'http-status-codes';
 import { env } from '@/common/utils/envConfig';
 import jwt from 'jsonwebtoken';
+import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
+import { createApiResponse } from '@/api-docs/openAPIResponseBuilders';
+import { z } from 'zod';
+
+export const accountRegistry = new OpenAPIRegistry();
+
+accountRegistry.registerPath({
+  method: 'post',
+  path: '/api/account/create',
+  tags: ['Account Creation'],
+  requestBody: {
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            address: { type: 'string' },
+            signature: { type: 'string' },
+          },
+          required: ['address', 'signature'],
+        },
+      },
+    },
+  },
+  responses: createApiResponse(
+    z.object({
+      success: z.boolean(),
+      message: z.string().optional(),
+    }),
+    'Account created / authenticated successfully'
+  ),
+});
 
 export const accountRouter: Router = (() => {
   const router = express.Router();
