@@ -41,6 +41,7 @@ const TokenList = () => {
         });
     },
     enabled: !!address,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
