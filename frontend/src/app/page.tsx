@@ -1,4 +1,5 @@
 import AccountConnection from '@/components/AccountCreation';
+import TokenList from '@/components/TokenList';
 import { Box, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 
@@ -14,6 +15,9 @@ export default function Home() {
           Wallet Auth and ERC20 Token Dashboard
         </Typography>
         <AccountConnection />
+        <Box sx={{ mt: 4 }}>
+          <TokenList />
+        </Box>
       </Box>
     </Container>
   );
