@@ -12,4 +12,5 @@ export const env = cleanEnv(process.env, {
   COMMON_RATE_LIMIT_WINDOW_MS: num({ devDefault: testOnly(1000) }),
   SIGN_MESSAGE: str({ devDefault: testOnly('TEST MESSAGE') }),
   JWT_SECRET: str({ devDefault: testOnly('TEST SECRET') }),
+  ETHERSCAN_API_KEY: str({ devDefault: testOnly('TEST KEY') }),
 });
