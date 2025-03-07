@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import helmet from 'helmet';
 import { pino } from 'pino';
 
+import { tokenRouter } from '@/api/tokens/tokensRouter';
 import { accountRouter } from '@/api/account/accountRouter';
 import { sessionRouter } from '@/api/account/sessionRouter';
 import { healthCheckRouter } from '@/api/healthCheck/healthCheckRouter';
@@ -37,6 +38,7 @@ app.use(requestLogger);
 app.use('/health-check', healthCheckRouter);
 app.use('/api/account', accountRouter);
 app.use('/api/account', sessionRouter);
+app.use('/api/tokens', tokenRouter);
 
 // Swagger UI
 app.use(openAPIRouter);
