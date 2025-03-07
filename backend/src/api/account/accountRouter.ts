@@ -73,7 +73,7 @@ export const accountRouter: Router = (() => {
       });
 
       // setting the token as http-only cookie
-      res.cookie('sessionToken', token, {
+      res.cookie(`sessionToken_${address.toLowerCase()}`, token, {
         httpOnly: true,
         secure: env.NODE_ENV === 'production',
         sameSite: 'strict',

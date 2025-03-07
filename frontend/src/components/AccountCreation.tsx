@@ -58,7 +58,8 @@ const AccountConnection = () => {
     isConnected,
     signature,
     signMessage,
-    SIGN_MESSAGE || ''
+    SIGN_MESSAGE || '',
+    address as string
   );
 
   useEffect(() => {
