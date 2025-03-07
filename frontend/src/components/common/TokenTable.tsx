@@ -1,4 +1,4 @@
-import { showNumber, trimAndConcat } from '@/utils/helpers';
+import { trimAndConcat } from '@/utils/helpers';
 import {
   Table,
   TableBody,
@@ -131,11 +131,7 @@ const TokenTable: React.FC<TokenTableProps> = ({ tokens, isFetching }) => {
                 <TableCell align='center'>{token.name}</TableCell>
                 <TableCell align='center'>{token.symbol}</TableCell>
                 <TableCell align='center' sx={{ fontWeight: 'bold' }}>
-                  {Number(showNumber(token.balance.toString(), 2)) == 0
-                    ? '<0.001'
-                    : formatter.format(
-                        Number(showNumber(token.balance.toString(), 2))
-                      )}
+                  {formatter.format(Number(token.balance))}
                 </TableCell>
                 <TableCell
                   align='center'
