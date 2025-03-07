@@ -59,6 +59,6 @@ describe('Account Router', () => {
 
     expect(res.status).toBe(StatusCodes.OK);
     expect(res.body).toHaveProperty('message', 'Account verified successfully');
-    expect(res.header['set-cookie'][0]).toContain('sessionToken=');
+    expect(res.header['set-cookie'][0]).toContain('sessionToken_0xtestaddress=');
   });
 });

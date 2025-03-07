@@ -26,15 +26,17 @@ describe('Session Router', () => {
     vi.resetAllMocks();
   });
 
-  test('should return 401 if no session token is provided', async () => {
-    const res = await request(app).get('/api/account/session');
+  test('should return 400 if no session token is provided', async () => {
+    const res = await request(app).get('/api/account/session?address=0xtestaddress');
     expect(res.status).toBe(StatusCodes.UNAUTHORIZED);
     expect(res.body).toHaveProperty('error', 'Session expired or invalid');
   });
 
   test('should return valid session if token is valid', async () => {
     (jwt.verify as any).mockReturnValue({ address: '0xTestAddress' });
-    const res = await request(app).get('/api/account/session').set('Cookie', ['sessionToken=fakeToken']);
+    const res = await request(app)
+      .get(`/api/account/session?address=0xtestaddress`)
+      .set('Cookie', ['sessionToken_0xtestaddress=fakeToken']);
     expect(res.status).toBe(StatusCodes.OK);
     expect(res.body).toHaveProperty('valid', true);
     expect(res.body).toHaveProperty('address', '0xTestAddress');
@@ -44,7 +46,9 @@ describe('Session Router', () => {
     (jwt.verify as any).mockImplementation(() => {
       throw new Error('Invalid token');
     });
-    const res = await request(app).get('/api/account/session').set('Cookie', ['sessionToken=invalidToken']);
+    const res = await request(app)
+      .get('/api/account/session?address=0xtestaddress')
+      .set('Cookie', ['sessionToken=invalidToken']);
     expect(res.status).toBe(StatusCodes.UNAUTHORIZED);
     expect(res.body).toHaveProperty('error', 'Session expired or invalid');
   });
