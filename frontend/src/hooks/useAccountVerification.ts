@@ -18,13 +18,23 @@ export const useAccountVerification = (
   SIGN_MESSAGE: string,
   address: string
 ): void => {
+  const sessionCheckedRef = useRef(false);
+  const prevAddressRef = useRef(address);
+
+  // resets the sessionCheckedRef is the address changes
+  useEffect(() => {
+    if (prevAddressRef.current !== address) {
+      sessionCheckedRef.current = false;
+      prevAddressRef.current = address;
+    }
+  }, [address]);
+
   useEffect(() => {
     (async () => {
-      if (isConnected) {
+      if (isConnected && !sessionCheckedRef.current) {
+        sessionCheckedRef.current = true;
         const isSessionExpired = await checkSession(address);
-        console.log('isSessionExpired', isSessionExpired);
         if (!signature && !isSessionExpired.valid) {
-          console.log('running sign');
           signMessage({ message: SIGN_MESSAGE });
         }
       }
