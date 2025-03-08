@@ -6,7 +6,7 @@
 
 - Install dependencies: `yarn`
 
-### Step 2: ⚙️ Environment Configuration
+### Step 2: ⚙️ Environment Configuration\*
 
 - Create `.env`: Copy `.env.template` to `.env`
 - Update `.env`: Fill in necessary environment variables (specially the last three)
@@ -17,7 +17,7 @@
 - Building: `yarn run build`
 - Production Mode: Set `.env` to `NODE_ENV="production"` then `npm run build && npm run start`
 
-## Addtional Information for the reviewer : (Important)
+## Addtional Information for the reviewer : (Important)\*
 
 ### Environment Configuration :
 
