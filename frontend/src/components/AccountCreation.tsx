@@ -150,7 +150,7 @@ const AccountConnection = () => {
         </Box>
       )}
 
-      {isMessageSignedDeclined && (
+      {isConnected && isMessageSignedDeclined && (
         <Box>
           <Button
             onClick={() => signMessage({ message: SIGN_MESSAGE || '' })}
