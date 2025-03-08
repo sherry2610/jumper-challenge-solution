@@ -15,9 +15,7 @@ const ToastNotification: React.FC<ToastNotificationProps> = ({
   autoHideDuration = 3500,
   onClose,
 }) => {
-  const Transition = (props: SlideProps) => (
-    <Slide {...props} direction='down' />
-  );
+  const Transition = (props: SlideProps) => <Slide {...props} direction='up' />;
 
   return (
     <Snackbar
@@ -25,7 +23,7 @@ const ToastNotification: React.FC<ToastNotificationProps> = ({
       autoHideDuration={autoHideDuration}
       onClose={onClose}
       TransitionComponent={Transition}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     >
       <Alert
         onClose={onClose}
