@@ -53,3 +53,7 @@ Only necessary files and folders are mentioned below with their brief descriptio
     |   ├── server.ts                   # for main Express app initialization, middleware injections and Routes mounting.
     ├── .env.template                   # for generating .env from it
     └── README.md                       # info about backend folder
+
+## Thoughts on not using a Database:
+
+- For this challenge, persistence is not required by the instructions so there is no need for a persistent database that's why the account creation flow has been designed to be stateless by simply verifying signatures and then generating a JWT session token.
