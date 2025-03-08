@@ -10,7 +10,16 @@ export const sessionRegistry = new OpenAPIRegistry();
 sessionRegistry.registerPath({
   method: 'get',
   path: '/api/account/session',
-  tags: ['Session'],
+  tags: ['Check Session Validity'],
+  parameters: [
+    {
+      name: 'address',
+      in: 'query',
+      required: true,
+      schema: { type: 'string' },
+      description: 'User address for which to check the session for',
+    },
+  ],
   responses: createApiResponse(
     z.object({
       valid: z.boolean(),
