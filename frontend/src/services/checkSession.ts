@@ -17,7 +17,7 @@ export const checkSession = async (
     return response.data;
   } catch (error: AxiosError | unknown) {
     if (axios.isAxiosError(error)) {
-      return { valid: false, message: error.response?.data.error };
+      return { valid: false, message: error.response?.data };
     } else {
       return { valid: false, message: 'Unknown Error' };
     }
