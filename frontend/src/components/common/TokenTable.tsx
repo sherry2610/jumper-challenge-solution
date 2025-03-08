@@ -138,7 +138,7 @@ const TokenTable: React.FC<TokenTableProps> = ({ tokens, isFetching }) => {
           aria-label='ERC20 Tokens Table'
         >
           <TableHead>
-            <TableRow sx={{ backgroundColor: 'primary.light' }}>
+            <TableRow sx={{ backgroundColor: 'rgb(163, 173, 230)' }}>
               <TableCell align='center'>
                 <Typography variant='subtitle1' fontWeight='bold'>
                   Name
