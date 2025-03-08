@@ -27,8 +27,29 @@ There are three additional environment variables which I've created additionally
 - JWT_SECRET=
 - ETHERSCAN_API_KEY=
 
-For your (the reviewer) convenience, I'll be providing the values of these three environment variables by writing them in the NOTES and also by attaching a file call BE-addtional-three-values.txt through the submission form section.
+For your (the reviewer) convenience, I'll be providing the values of these three environment variables by writing them in the NOTES and also by attaching a file call **`BE-addtional-three-values.txt`** through the submission form section.
 
-Ofcourse you can always generate your own values for these three environment variables and use them as well. In that case you only have to make sure of one important thing, which is :
+Ofcourse you can always generate your own values for these three environment variables and use them as well. In that case you only have to make sure of one **important thing**, which is :
 
 - The value you assign to this SIGN_MESSAGE environment variable should be exactly the same as the `NEXT_PUBLIC_SIGN_MESSAGE` environment variable from the frontend.
+
+## Folder Structure Brief Explanation :
+
+Only necessary files and folders are mentioned below with their brief descriptions.
+
+### ./backend folder structure
+
+    .
+    ├── .next                           # Compiled files (alternatively `dist`)
+    ├── public                          # some static assets
+    ├── src                             # main src folder
+    │   ├── api                         # for account, session and tokens routers along with their test cases.
+    │   ├── api-docs                    # for OpenAPIDocumentation. (swagger)
+    │   └── common
+    |   |   └── middleware
+    |   |   └── models
+    |   |   └── utils
+    |   ├── index.ts                    # for main entry file of the server.
+    |   ├── server.ts                   # for main Express app initialization, middleware injections and Routes mounting.
+    ├── .env.template                   # for generating .env from it
+    └── README.md                       # info about backend folder
