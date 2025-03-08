@@ -4,19 +4,16 @@ export function trimAndConcat(str: string): string {
   return `${str.slice(0, 5)}...${str.slice(-5)}`;
 }
 
-export const showNumber = (
-  num: string | number,
-  decimals: number = 6
-): string => {
-  if (isNaN(Number(num))) {
-    throw new Error('Invalid number provided');
+export const numFormatter = (value: string | number): string => {
+  const num = Number(value);
+
+  if (num > 0 && num < 0.0001) {
+    return '<0.0001';
   }
 
-  const [integerPart, fractionalPart] = num.toString().split('.');
+  const formatter = new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: 4,
+  });
 
-  if (!fractionalPart || fractionalPart.length <= decimals) {
-    return num.toString();
-  }
-
-  return `${integerPart}.${fractionalPart.slice(0, decimals)}`;
+  return formatter.format(num);
 };

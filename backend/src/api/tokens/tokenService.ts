@@ -105,7 +105,7 @@ export const fetchERC20Tokens = async (userAddress: string, chainId: string): Pr
         balance: nativeBalance,
       },
       ...tokens,
-    ];
+    ].filter((token) => Number(token?.balance) !== 0);
 
     return { tokens: tokensWithNative };
   } catch (err) {
