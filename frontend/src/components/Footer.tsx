@@ -3,7 +3,7 @@ import { Box, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const FooterContainer = styled(Box)({
-  background: '#f5f5f5',
+  background: 'rgba(163, 173, 230, 0.5)',
   padding: '20px 0',
   marginTop: 'auto',
   borderTop: '1px solid #e0e0e0',
