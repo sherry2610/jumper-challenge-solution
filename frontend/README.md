@@ -49,7 +49,7 @@ Only necessary files and folders are mentioned below with their brief descriptio
     |   |   └── wagmiConfig.ts          # setup wagmi configurations.
     │   ├── contexts                    # Custom Context Providers (e.g RateLimitContext.tsx)
     │   ├── hooks                       # custome hooks
-    |   |   └── useAccountVerification  # RootLayout wrapped around multiple necessary.
+    |   |   └── useAccountVerification  # custom hook for generating signature and verifying account.
     |   |   └── useToast.ts             # custom hook for managing ToastNotifications.
     │   └── services                    # independent methods which includes API calling.
     |   |   └── checkSession.ts         # for validating session by hitting api/account/session endpoint.
