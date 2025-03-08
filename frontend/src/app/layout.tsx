@@ -6,6 +6,8 @@ import theme from '../theme';
 import { AppProvider } from '@/components/AppProvider';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { RateLimitProvider } from '@/contexts/RateLimitContext';
+import AppInitializer from '@/components/AppInitializer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
   description: 'Signature Verification and ERC20 Token Dashboard',
 };
 
-export default function RootLayout({
+function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -25,16 +27,22 @@ export default function RootLayout({
         className={inter.className}
         style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
       >
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <AppProvider>
-              <Header />
-              {children}
-              <Footer />
-            </AppProvider>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <RateLimitProvider>
+          <AppInitializer>
+            <AppRouterCacheProvider>
+              <ThemeProvider theme={theme}>
+                <AppProvider>
+                  <Header />
+                  {children}
+                  <Footer />
+                </AppProvider>
+              </ThemeProvider>
+            </AppRouterCacheProvider>
+          </AppInitializer>
+        </RateLimitProvider>
       </body>
     </html>
   );
 }
+
+export default RootLayout;
