@@ -56,7 +56,6 @@ This endpoint is for :
   router.get('/:chainId?/:userAddress?', async (req: Request, res: Response) => {
     try {
       const { chainId, userAddress } = req.params;
-      console.log('INSIDE token api!', { chainId, userAddress });
       if (!userAddress || !chainId) {
         const serviceResponse = new ServiceResponse(
           ResponseStatus.Failed,

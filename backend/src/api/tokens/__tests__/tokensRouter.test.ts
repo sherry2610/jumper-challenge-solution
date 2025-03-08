@@ -41,9 +41,8 @@ describe('Tokens Router', () => {
 
     const res = await request(app).get('/api/tokens/11155111/0xTestAddress');
     expect(res.status).toBe(StatusCodes.OK);
-    console.log('res.body', res.body);
     expect(res.body.responseObject).toHaveProperty('tokens');
-    expect(res.body.responseObject.tokens.tokens).toHaveLength(2);
+    expect(res.body.responseObject.tokens).toHaveLength(2);
   });
 
   test('should handle internal server errors gracefully', async () => {

@@ -26,8 +26,6 @@ const baseUrl = 'https://api.etherscan.io/v2/api';
 
 export const fetchERC20Tokens = async (userAddress: string, chainId: string): Promise<fetchERC20TokensResponse> => {
   try {
-    console.log('FETCHING START.... : ', userAddress);
-
     if (!apiKey) {
       throw new Error('Missing ETHERSCAN_API_KEY in environment variables');
     }
@@ -36,7 +34,6 @@ export const fetchERC20Tokens = async (userAddress: string, chainId: string): Pr
     const url = `${baseUrl}?chainid=${chainId}&module=account&action=tokentx&address=${userAddress}&sort=asc&apikey=${apiKey}`;
 
     const response = await axios.get(url);
-    console.log('response', response.data.message);
 
     if (response.data.status !== '1' && response.data.message !== 'No transactions found') {
       throw new Error(response.data.message || 'Error fetching token transactions');
@@ -91,11 +88,9 @@ export const fetchERC20Tokens = async (userAddress: string, chainId: string): Pr
     const nativeUrl = `${baseUrl}?chainid=${chainId}&module=account&action=balance&address=${userAddress}&tag=latest&apikey=${apiKey}`;
     const nativeResponse = await axios.get(nativeUrl);
     let nativeBalance = '0';
-    console.log('nativeResponse.data ------', nativeResponse);
     if (nativeResponse.data.status === '1') {
       nativeBalance = ethers.formatEther(BigInt(nativeResponse.data.result));
     }
-    console.log('nativeResponse', nativeBalance);
 
     const tokensWithNative: ERC20Token[] = [
       {
